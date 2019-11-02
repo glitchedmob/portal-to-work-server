@@ -7,6 +7,8 @@ namespace PortalToWork.Data
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             var config = new DbConfiguration();
+
+            optionsBuilder.UseNpgsql(config.ToString());
         }
     }
 }
