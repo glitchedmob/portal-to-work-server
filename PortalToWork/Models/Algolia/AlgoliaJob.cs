@@ -12,7 +12,7 @@ namespace PortalToWork.Models.Algolia
         public string date_expires { get; set; }
         public int employer_id { get; set; }
         public Employer employer { get; set; }
-        public LocationList locations { get; set; }
+        public AlgoliaLocationList locations { get; set; }
         public string title { get; set; }
         public string description { get; set; }
         public string job_type { get; set; }

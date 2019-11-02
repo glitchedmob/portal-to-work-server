@@ -10,7 +10,7 @@ namespace PortalToWork.Models.H4G
         public string date_expires { get; set; }
         public int employer_id { get; set; }
         public Employer employer { get; set; }
-        public LocationList locations { get; set; }
+        public H4GLocationList locations { get; set; }
         public string title { get; set; }
         public string description { get; set; }
         public string job_type { get; set; }
