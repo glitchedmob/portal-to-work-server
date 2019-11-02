@@ -1,3 +1,4 @@
+using System;
 using Microsoft.EntityFrameworkCore;
 using PortalToWork.Models;
 
@@ -11,7 +12,9 @@ namespace PortalToWork.Data
         {
             var config = new DbConfiguration();
 
-            optionsBuilder.UseNpgsql(config.ToString());
+            Console.WriteLine($"Connection String: {config.ConnectionString}");
+
+            optionsBuilder.UseNpgsql(config.ConnectionString);
         }
     }
 }

@@ -6,15 +6,18 @@ namespace PortalToWork.Data
     public class DbConfiguration
     {
         private NpgsqlConnectionStringBuilder _connectionStringBuilder;
+
+        public string ConnectionString => _connectionStringBuilder.ConnectionString;
         
         public DbConfiguration()
         {
-            _connectionStringBuilder = new NpgsqlConnectionStringBuilder();
-            
-            _connectionStringBuilder.Host = Environment.GetEnvironmentVariable("DB_SERVER");
-            _connectionStringBuilder.Username = Environment.GetEnvironmentVariable("DB_USER");
-            _connectionStringBuilder.Password = Environment.GetEnvironmentVariable("DB_PASSWORD");
-            _connectionStringBuilder.Database = Environment.GetEnvironmentVariable("DB_NAME");
+            _connectionStringBuilder = new NpgsqlConnectionStringBuilder
+            {
+                Host = Environment.GetEnvironmentVariable("DB_SERVER"),
+                Username = Environment.GetEnvironmentVariable("DB_USER"),
+                Password = Environment.GetEnvironmentVariable("DB_PASSWORD"),
+                Database = Environment.GetEnvironmentVariable("DB_NAME"),
+            };
 
             var port = Environment.GetEnvironmentVariable("DB_PORT");
 
@@ -23,10 +26,7 @@ namespace PortalToWork.Data
                 _connectionStringBuilder.Port = int.Parse(port);
             }
         }
-
-        public override string ToString()
-        {
-            return _connectionStringBuilder.ToString();
-        }
+        
+        
     }
 }

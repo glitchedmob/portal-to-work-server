@@ -17,6 +17,15 @@ namespace PortalToWork
     {
         public Startup(IConfiguration configuration)
         {
+            try
+            {
+                DotNetEnv.Env.Load();
+            }
+            catch (Exception e)
+            {
+                // ignored
+            }
+            
             Configuration = configuration;
         }
 

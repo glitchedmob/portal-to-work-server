@@ -14,15 +14,6 @@ namespace PortalToWork
     {
         public static void Main(string[] args)
         {
-            try
-            {
-                DotNetEnv.Env.Load();
-            }
-            catch (Exception e)
-            {
-                // ignored
-            }
-
             CreateWebHostBuilder(args).Build().Run();
         }
 
