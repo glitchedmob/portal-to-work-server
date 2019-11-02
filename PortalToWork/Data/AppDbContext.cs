@@ -1,6 +1,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using PortalToWork.Models;
+using PortalToWork.Models.H4G;
 
 namespace PortalToWork.Data
 {

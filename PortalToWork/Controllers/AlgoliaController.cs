@@ -4,31 +4,46 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Algolia.Search.Clients;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using PortalToWork.Models;
+using PortalToWork.Models.Algolia;
+using PortalToWork.Models.H4G;
 
 namespace PortalToWork.Controllers
 {
     [Route("api/[controller]")]
     public class AlgoliaController : ControllerBase
     {
+        private readonly IMapper _mapper;
+
+        public AlgoliaController(IMapper mapper)
+        {
+            _mapper = mapper;
+        }
+
         [HttpGet]
         [Route("refresh")]
         public async Task<ActionResult<string>> Refresh()
         {
-            var jobs = await GetAllJobs();
-            // var client = new SearchClient(
-            //     Environment.GetEnvironmentVariable("ALGOLIA_APP_ID"),
-            //     Environment.GetEnvironmentVariable("ALGOLIA_ADMIN_KEY")
-            // );
-            // var index = client.InitIndex("jobs");
+            var h4GJobs = await GetAllJobs();
+            
+            var client = new SearchClient(
+                Environment.GetEnvironmentVariable("ALGOLIA_APP_ID"),
+                Environment.GetEnvironmentVariable("ALGOLIA_ADMIN_KEY")
+            );
+            var index = client.InitIndex("jobs");
+
+            var algoliaJobs = _mapper.Map<List<AlgoliaJob>>(h4GJobs);
+
+            index.ReplaceAllObjects(algoliaJobs);
 
             // var alljobs = index.ReplaceAllObjects();
             return "success";
         }
 
-        private static async Task<IEnumerable<Job>> GetAllJobs()
+        private static async Task<IEnumerable<H4GJob>> GetAllJobs()
         {
             using (var client = new HttpClient())
             {
@@ -41,7 +56,7 @@ namespace PortalToWork.Controllers
                 
                 if (!response.IsSuccessStatusCode)
                 {
-                    return new List<Job>();
+                    return new List<H4GJob>();
                 }
 
                 var content = await response.Content.ReadAsStringAsync();

@@ -1,8 +1,8 @@
 using System;
 
-namespace PortalToWork.Models
+namespace PortalToWork.Models.H4G
 {
-    public class Job
+    public class H4GJob
     {
         public int id { get; set; }
         public string date_posted { get; set; }
