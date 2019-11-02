@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace PortalToWork.Models
 {
-    public class Devices
+    public class Device
     {
         public string GeoLocation { get; set; }
         public string PlayerID { get; set; }
