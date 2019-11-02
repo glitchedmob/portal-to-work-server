@@ -1,4 +1,15 @@
-$HEADER$namespace $NAMESPACE$
+namespace PortalToWork.Data
 {
-  public class $CLASS$ {$END$}
+    public class DbConfiguration
+    {
+        public DbConfiguration()
+        {
+            
+        }
+
+        public override string ToString()
+        {
+            return "";
+        }
+    }
 }
