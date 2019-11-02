@@ -22,3 +22,4 @@ namespace PortalToWork
                 .UseStartup<Startup>();
     }
 }
+ 
