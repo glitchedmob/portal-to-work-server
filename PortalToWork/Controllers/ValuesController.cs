@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Algolia.Search.Clients;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Net.Http.Formatting;
 
 namespace PortalToWork.Controllers
 {
@@ -28,6 +32,12 @@ namespace PortalToWork.Controllers
         [HttpPost]
         public void Post([FromBody] string value)
         {
+            /*
+             * get in the data
+             * loop through the Devices
+             *     compare location in a 30mile radius
+             *         send notifs to player ID
+            */
         }
 
         // PUT api/values/5

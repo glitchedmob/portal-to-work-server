@@ -1,6 +1,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using PortalToWork.Models;
+using PortalToWork.Models.H4G;
 
 namespace PortalToWork.Data
 {
@@ -11,8 +12,6 @@ namespace PortalToWork.Data
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             var config = new DbConfiguration();
-
-            Console.WriteLine($"Connection String: {config.ConnectionString}");
 
             optionsBuilder.UseNpgsql(config.ConnectionString);
         }
