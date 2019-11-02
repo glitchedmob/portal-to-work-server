@@ -12,8 +12,6 @@ namespace PortalToWork.Data
         {
             var config = new DbConfiguration();
 
-            Console.WriteLine($"Connection String: {config.ConnectionString}");
-
             optionsBuilder.UseNpgsql(config.ConnectionString);
         }
     }
