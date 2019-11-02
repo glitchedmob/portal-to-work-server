@@ -7,5 +7,7 @@ namespace PortalToWork.Models
 {
     public class Devices
     {
+        public string GeoLocation { get; set; }
+        public string PlayerID { get; set; }
     }
 }
