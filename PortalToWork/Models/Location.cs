@@ -12,7 +12,6 @@ namespace PortalToWork.Models
         public string zipcode { get; set; }
         public DateTime created_at { get; set; }
         public DateTime updated_at { get; set; }
-        public string lat { get; set; }
-        public string lng { get; set; }
+        public GeoData _geoloc { get; set; }
     }
 }
