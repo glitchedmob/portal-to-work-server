@@ -77,20 +77,20 @@ namespace PortalToWork.Controllers
             //send notifications
             var playerIds = await _context.Devices.Select(d => d.PlayerID).ToListAsync();
 
-            var result = SendNotificationsToPlayerIDs(playerIds);
+            var result = await SendNotificationsToPlayerIDs(playerIds, webhookRoot.jobs.data);
 
 
             return Created(new Uri("https://hack4goodsgf.com"), algoliaJobs);
         }
 
-        private async Task<string> SendNotificationsToPlayerIDs(List<string> playerIds)
+        private async Task<string> SendNotificationsToPlayerIDs(List<string> playerIds, List<H4GJob> jobs)
         {
             var playerIdsString = "";
 
             var i = 0;
             foreach(var playerId in playerIds)
             {
-                playerIdsString += "\"b1b74136-eee8-4843-a72d-df8788b73016\"";
+                playerIdsString += $"\"{playerId}\"";
                 if(i < playerIds.Count - 1)
                 {
                     playerIdsString += ", ";
@@ -106,10 +106,11 @@ namespace PortalToWork.Controllers
 
                 var jsonPayload = $@"{{
                     ""app_id"": ""{Environment.GetEnvironmentVariable("ONESIGNAL_APP_ID")}"",
-                    ""contents"" {{
-                        ""en"": ""English Message""
+                    ""contents"": {{
+                        ""en"": ""New job posting: {jobs[0].title}""
                     }},
-                    ""include_player_ids"" [{playerIdsString}]
+                    ""include_player_ids"": [{playerIdsString}],
+                    ""url"": ""https://portal-to-work.netlify.com/#/app/jobs/{jobs[0].id}""
                 }}";
 
                 var stringContent = new StringContent(jsonPayload, Encoding.UTF8, "application/json");
