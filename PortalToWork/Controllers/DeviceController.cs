@@ -33,7 +33,7 @@ namespace PortalToWork.Controllers
                 await _context.SaveChangesAsync();
             }
 
-            _context.Add(device);
+            await _context.AddAsync(device);
             await _context.SaveChangesAsync();
             
 
