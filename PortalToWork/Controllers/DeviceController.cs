@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PortalToWork.Data;
 using PortalToWork.Models;
-using PortalToWork.Repository;
 
 namespace PortalToWork.Controllers
 {
