@@ -66,7 +66,9 @@ namespace PortalToWork.Controllers
             var index = client.InitIndex("jobs");
 
             if (webhookRoot.jobs == null)
+            {
                 return Ok();
+            }
 
             var algoliaJobs = _mapper.Map<List<AlgoliaJob>>(webhookRoot.jobs.data);
 
@@ -102,8 +104,15 @@ namespace PortalToWork.Controllers
                 //client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-                var stringContent = new StringContent("{" + "\"app_id\": \"" + Environment.GetEnvironmentVariable("ONE_SIGNAL_APP_ID") + 
-                    "\"," + "\"contents\": {\"en\": \"English Message\"}," + "\"include_player_ids\": [" + playerIdsString + "]}", Encoding.UTF8, "application/json");
+                var jsonPayload = $@"{{
+                    ""app_id"": ""{Environment.GetEnvironmentVariable("ONESIGNAL_APP_ID")}"",
+                    ""contents"" {{
+                        ""en"": ""English Message""
+                    }},
+                    ""include_player_ids"" [{playerIdsString}]
+                }}";
+
+                var stringContent = new StringContent(jsonPayload, Encoding.UTF8, "application/json");
                 var response = await client.PostAsync("https://onesignal.com/api/v1/notifications", stringContent);
 
 
