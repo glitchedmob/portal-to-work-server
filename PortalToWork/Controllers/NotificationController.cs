@@ -9,6 +9,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Routing;
 using PortalToWork.Models.H4G;
+using AutoMapper;
+using PortalToWork.Models.Algolia;
+using Algolia.Search.Clients;
 
 namespace PortalToWork.Controllers
 {
@@ -17,10 +20,12 @@ namespace PortalToWork.Controllers
     public class NotificationController : ControllerBase
     {
         protected readonly AppDbContext _context;
+        private readonly IMapper _mapper;
 
-        public NotificationController(AppDbContext context)
+        public NotificationController(AppDbContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
         
 
@@ -51,8 +56,21 @@ namespace PortalToWork.Controllers
         [Route("new-jobs-webhook")]
         public async Task<IActionResult> NewJobsWebhook(WebhookRoot webhookRoot)
         {
-            Console.WriteLine(webhookRoot);
-            return Ok();
+            var client = new SearchClient(
+                Environment.GetEnvironmentVariable("ALGOLIA_APP_ID"),
+                Environment.GetEnvironmentVariable("ALGOLIA_ADMIN_KEY")
+            );
+            var index = client.InitIndex("jobs");
+
+            if (webhookRoot.jobs == null)
+                return Ok();
+
+            var algoliaJobs = _mapper.Map<List<AlgoliaJob>>(webhookRoot.jobs.data);
+
+            index.SaveObjects(algoliaJobs);
+
+
+            return Created(new Uri("https://hack4goodsgf.com"), algoliaJobs);
         }
     }
 }
