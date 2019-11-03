@@ -4,8 +4,11 @@ using PortalToWork.Data;
 using PortalToWork.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Routing;
+using PortalToWork.Models.H4G;
 
 namespace PortalToWork.Controllers
 {
@@ -19,6 +22,7 @@ namespace PortalToWork.Controllers
         {
             _context = context;
         }
+        
 
         [HttpGet("{playerId}")]
         public async Task<List<Notification>> GetNotifications(string playerId)
@@ -41,6 +45,14 @@ namespace PortalToWork.Controllers
             await _context.SaveChangesAsync();
 
             return notification;
+        }
+
+        [HttpPost]
+        [Route("new-jobs-webhook")]
+        public async Task<IActionResult> NewJobsWebhook(WebhookRoot webhookRoot)
+        {
+            Console.WriteLine(webhookRoot);
+            return Ok();
         }
     }
 }
