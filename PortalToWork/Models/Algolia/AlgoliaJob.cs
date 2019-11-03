@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Newtonsoft.Json;
 
 namespace PortalToWork.Models.Algolia
@@ -12,7 +13,7 @@ namespace PortalToWork.Models.Algolia
         public string date_expires { get; set; }
         public int employer_id { get; set; }
         public Employer employer { get; set; }
-        public AlgoliaLocationList locations { get; set; }
+        public LocationList locations { get; set; }
         public string title { get; set; }
         public string description { get; set; }
         public string job_type { get; set; }
@@ -25,5 +26,8 @@ namespace PortalToWork.Models.Algolia
         public int fake { get; set; }
         public DateTime created_at { get; set; }
         public DateTime updated_at { get; set; }
+        [JsonProperty("_geoloc")]
+        //public GeoData geodata { get; set; }
+        public List<GeoData> geodata { get; set; }
     }
 }
