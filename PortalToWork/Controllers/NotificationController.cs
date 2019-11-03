@@ -12,6 +12,9 @@ using PortalToWork.Models.H4G;
 using AutoMapper;
 using PortalToWork.Models.Algolia;
 using Algolia.Search.Clients;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Text;
 
 namespace PortalToWork.Controllers
 {
@@ -69,8 +72,43 @@ namespace PortalToWork.Controllers
 
             index.SaveObjects(algoliaJobs);
 
+            //send notifications
+            var playerIds = await _context.Devices.Select(d => d.PlayerID).ToListAsync();
+
+            var result = SendNotificationsToPlayerIDs(playerIds);
+
 
             return Created(new Uri("https://hack4goodsgf.com"), algoliaJobs);
+        }
+
+        private async Task<string> SendNotificationsToPlayerIDs(List<string> playerIds)
+        {
+            var playerIdsString = "";
+
+            var i = 0;
+            foreach(var playerId in playerIds)
+            {
+                playerIdsString += "\"b1b74136-eee8-4843-a72d-df8788b73016\"";
+                if(i < playerIds.Count - 1)
+                {
+                    playerIdsString += ", ";
+                }
+
+                i++;
+            }
+
+            using (var client = new HttpClient())
+            {
+                //client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                var stringContent = new StringContent("{" + "\"app_id\": \"" + Environment.GetEnvironmentVariable("ONE_SIGNAL_APP_ID") + 
+                    "\"," + "\"contents\": {\"en\": \"English Message\"}," + "\"include_player_ids\": [" + playerIdsString + "]}", Encoding.UTF8, "application/json");
+                var response = await client.PostAsync("https://onesignal.com/api/v1/notifications", stringContent);
+
+
+                return await response.Content.ReadAsStringAsync();
+            }
         }
     }
 }
