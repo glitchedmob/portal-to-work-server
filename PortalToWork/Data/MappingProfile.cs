@@ -2,6 +2,7 @@ using AutoMapper;
 using PortalToWork.Models.H4G;
 using PortalToWork.Models.Algolia;
 using PortalToWork.Models;
+using System.Linq;
 
 namespace PortalToWork.Data
 {
@@ -9,18 +10,23 @@ namespace PortalToWork.Data
     {
         public MappingProfile()
         {
+
             CreateMap<H4GJob, AlgoliaJob>()
+
                 .ForMember(
                     dest => dest.ObjectId,
                     opt => opt.MapFrom(src => src.id)
-                );
-
-            CreateMap<H4GLocationList, AlgoliaLocationList>();
-
-            CreateMap<H4GLocation, AlgoliaLocation>()
+                )
                 .ForMember(
                     dest => dest.geodata,
-                    opt => opt.MapFrom(src => new GeoData { lat = src.lat, lng = src.lng })
+                    opt => opt.MapFrom(
+                        src => src.locations.data
+                        .Select(l => new GeoData
+                        {
+                            lat = l.lat,
+                            lng = l.lng,
+                        })
+                    )
                 );
         }
     }

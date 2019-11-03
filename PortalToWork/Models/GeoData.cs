@@ -2,7 +2,7 @@
 {
     public class GeoData
     {
-        public double lat { get; set; }
-        public double lng { get; set; }
+        public float? lat { get; set; }
+        public float? lng { get; set; }
     }
 }

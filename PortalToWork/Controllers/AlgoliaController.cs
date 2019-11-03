@@ -35,9 +35,17 @@ namespace PortalToWork.Controllers
             );
             var index = client.InitIndex("jobs");
 
-            var algoliaJobs = _mapper.Map<List<AlgoliaJob>>(h4GJobs);
+            try
+            {
+                var algoliaJobs = _mapper.Map<List<AlgoliaJob>>(h4GJobs);
 
-            index.ReplaceAllObjects(algoliaJobs);
+                index.ReplaceAllObjects(algoliaJobs);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            
 
             // var alljobs = index.ReplaceAllObjects();
             return "success";
@@ -60,7 +68,8 @@ namespace PortalToWork.Controllers
                 }
 
                 var content = await response.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<H4GApiRootObject>(content).data;
+                var res = JsonConvert.DeserializeObject<H4GApiRootObject>(content).data;
+                return res;
             }
         }
     }

@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Newtonsoft.Json;
+using System;
 
-namespace PortalToWork.Models.H4G
+namespace PortalToWork.Models
 {
-    public class H4GLocation
+    public class Location
     {
         public int id { get; set; }
         public string name { get; set; }
@@ -13,9 +11,10 @@ namespace PortalToWork.Models.H4G
         public string city { get; set; }
         public string state { get; set; }
         public string zipcode { get; set; }
+        public float? lat { get; set; }
+        public float? lng { get; set; }
         public DateTime created_at { get; set; }
         public DateTime updated_at { get; set; }
-        public double lat { get; set; }
-        public double lng { get; set; }
+        
     }
 }
