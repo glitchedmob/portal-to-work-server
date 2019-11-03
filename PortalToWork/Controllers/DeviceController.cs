@@ -33,7 +33,9 @@ namespace PortalToWork.Controllers
                 await _context.SaveChangesAsync();
             }
 
-            await _context.AddAsync(device);
+            _context.Add(device);
+            await _context.SaveChangesAsync();
+            
 
             return Created(new Uri("https://hack4goodsgf.com"), device);
         }
