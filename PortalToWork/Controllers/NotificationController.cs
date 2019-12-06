@@ -110,7 +110,7 @@ namespace PortalToWork.Controllers
                         ""en"": ""New job posting: {jobs[0].title}""
                     }},
                     ""include_player_ids"": [{playerIdsString}],
-                    ""url"": ""https://portal-to-work.netlify.com/#/app/jobs/{jobs[0].id}""
+                    ""url"": ""https://jobs.sgf.dev/#/jobs/{jobs[0].id}""
                 }}";
 
                 var stringContent = new StringContent(jsonPayload, Encoding.UTF8, "application/json");
